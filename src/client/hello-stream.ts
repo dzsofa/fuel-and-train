@@ -1,11 +1,12 @@
+import { config } from '@/config';
 import Anthropic from '@anthropic-ai/sdk';
 
 export async function helloStream() {
   const client = new Anthropic();
 
   const messageStream = client.messages.stream({
-    max_tokens: 1024,
-    model: 'claude-haiku-4-5-20251001',
+    max_tokens: config.maxOutputTokens,
+    model: config.anthropicModel,
     messages: [
       {
         role: 'user',

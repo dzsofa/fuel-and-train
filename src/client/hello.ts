@@ -1,10 +1,11 @@
+import { config } from '@/config';
 import Anthropic from '@anthropic-ai/sdk';
 
 export async function hello() {
   const client = new Anthropic();
   const response = await client.messages.create({
-    max_tokens: 1024,
-    model: 'claude-haiku-4-5-20251001',
+    max_tokens: config.maxOutputTokens,
+    model: config.anthropicModel,
     messages: [
       {
         role: 'user',
@@ -13,13 +14,15 @@ export async function hello() {
     ]
   });
 
-  console.log(`Response: ${response.content.find(b => b.type === "text")?.text}`);
+  console.log(
+    `Response: ${response.content.find((b) => b.type === 'text')?.text}`
+  );
   console.log(`Usage: `, response.usage);
 
-  if (response.stop_reason === "max_tokens") {
-    console.warn(response.stop_reason)
+  if (response.stop_reason === 'max_tokens') {
+    console.warn(response.stop_reason);
   } else {
-    console.log(response.stop_reason)
+    console.log(response.stop_reason);
   }
 }
 
