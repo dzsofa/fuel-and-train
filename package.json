@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "hello": "node --env-file=.env --import tsx ./src/client/hello.ts",
-    "hello-stream": "node --env-file=.env --import tsx ./src/client/hello-stream.ts"
+    "hello-stream": "node --env-file=.env --import tsx ./src/client/hello-stream.ts",
+    "intake": "node --env-file=.env --import tsx ./src/intake/intake.ts"
   },
   "keywords": [],
   "author": "",
