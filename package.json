@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "hello": "node --env-file=.env --import tsx ./src/client/hello.ts",
     "hello-stream": "node --env-file=.env --import tsx ./src/client/hello-stream.ts",
     "intake": "node --env-file=.env --import tsx ./src/intake/intake.ts"
@@ -22,7 +24,9 @@
   "type": "module",
   "devDependencies": {
     "@types/node": "^26.1.2",
-    "tsx": "^4.23.7"
+    "tsx": "^4.23.7",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.1.10"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.115.0"
