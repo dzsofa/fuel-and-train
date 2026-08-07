@@ -93,7 +93,7 @@ function readImageBlock(filePath: string) {
 
 type AllowedMediaType = 'image/jpeg' | 'image/png' | 'image/gif' | 'image/webp';
 
-function mediaTypeFromPath(filePath: string): AllowedMediaType {
+export function mediaTypeFromPath(filePath: string): AllowedMediaType {
   const ext = path.extname(filePath).toLowerCase();
 
   switch (ext) {

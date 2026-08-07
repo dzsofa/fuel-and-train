@@ -1,10 +1,10 @@
-function required(name: string): string {
+export function required(name: string): string {
   const v = process.env[name];
   if (!v) throw new Error(`Missing env var: ${name}`);
   return v;
 }
 
-function int(name: string, fallback?: number): number {
+export function int(name: string, fallback?: number): number {
   const raw = process.env[name];
   if (raw == null || raw === '') {
     if (fallback != null) return fallback;
@@ -20,7 +20,7 @@ const ALLOWED_MODELS = ['claude-haiku-4-5-20251001'] as const;
 
 type AllowedModel = (typeof ALLOWED_MODELS)[number];
 
-function model(name: string): AllowedModel {
+export function model(name: string): AllowedModel {
   const v = required(name);
   if (!ALLOWED_MODELS.includes(v as AllowedModel)) {
     throw new Error(`Invalid ${name}: ${v}`);
