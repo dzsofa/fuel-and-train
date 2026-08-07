@@ -1,0 +1,56 @@
+[
+  {
+    "timestamp": "2026-08-05T07:45:00+02:00",
+    "meal_name": "Overnight oats with banana",
+    "macros": {
+      "protein_g": 14,
+      "carbs_g": 62,
+      "fat_g": 9,
+      "calories_kcal": 385
+    },
+    "notes": "pre-run breakfast"
+  },
+  {
+    "timestamp": "2026-08-05T13:10:00+02:00",
+    "meal_name": "Chili con carne",
+    "macros": {
+      "protein_g": 38,
+      "carbs_g": 28,
+      "fat_g": 12,
+      "calories_kcal": 372
+    },
+    "notes": "post-run, 8 km easy"
+  },
+  {
+    "timestamp": "2026-08-05T19:30:00+02:00",
+    "meal_name": "Green bean pasta",
+    "macros": {
+      "protein_g": 22,
+      "carbs_g": 71,
+      "fat_g": 8,
+      "calories_kcal": 448
+    }
+  },
+  {
+    "timestamp": "2026-08-06T12:00:00+02:00",
+    "meal_name": "Chicken and rice bowl",
+    "macros": {
+      "protein_g": 45,
+      "carbs_g": 58,
+      "fat_g": 7,
+      "calories_kcal": 475
+    },
+    "notes": "rest day, lighter carbs intended"
+  },
+  {
+    "timestamp": "2026-08-07T08:15:00+02:00",
+    "meal_name": "Protein pancakes",
+    "macros": {
+      "protein_g": 30,
+      "carbs_g": 42,
+      "fat_g": 11,
+      "calories_kcal": 387
+    },
+    "notes": "pre-strength session"
+  }
+]

@@ -1,0 +1,14 @@
+[
+  { "name": "All-purpose flour", "amount_g": 250 },
+  { "name": "Granulated sugar", "amount_g": 120 },
+  { "name": "Unsalted butter", "amount_g": 100 },
+  { "name": "Whole milk", "amount_g": 240 },
+  { "name": "Egg (beaten)", "amount_g": 50 },
+  { "name": "Baking powder", "amount_g": 8 },
+  { "name": "Fine sea salt", "amount_g": 5 },
+  { "name": "Olive oil", "amount_g": 30 },
+  { "name": "Garlic (minced)", "amount_g": 12 },
+  { "name": "Onion (diced)", "amount_g": 150 },
+  { "name": "Chicken breast (raw)", "amount_g": 300 },
+  { "name": "Tomato paste", "amount_g": 40 }
+]
