@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { scaleRecipe, estimateMacros, dispatch } from "./handlers";
+import type { Recipe, MacrosPerServing } from './types';
 
 const recipe = {
   name: 'Pancakes',
@@ -132,7 +133,7 @@ describe('dispatch', () => {
       target_servings: 4
     };
 
-    const result = dispatch('scale_recipe', input);
+    const result = dispatch('scale_recipe', input) as Recipe;
 
     expect(result.servings).toBe(4);
   });
@@ -143,12 +144,12 @@ describe('dispatch', () => {
       servings: 1
     };
 
-    const result = dispatch('estimate_macros', input);
+    const result = dispatch('estimate_macros', input) as MacrosPerServing;
 
     expect(result.calories_kcal).toBeCloseTo(884);
   });
 
   it('should throw for an unknown tool name', () => {
-    expect(() => dispatch('nonexistent_tool', {})).toThrow();
+    expect(() => dispatch('nonexistent_tool', {} as any)).toThrow();
   });
 });
