@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitest/config';
+import { Model } from './src/model/models';
 
 export default defineConfig({
   resolve: {
@@ -7,7 +8,7 @@ export default defineConfig({
   test: {
     unstubEnvs: true,
     env: {
-      ANTHROPIC_MODEL: 'claude-haiku-4-5-20251001'
+      ANTHROPIC_MODEL: Model.Haiku
     },
     exclude: ['**/node_modules/**', 'tests/integration/**']
   }

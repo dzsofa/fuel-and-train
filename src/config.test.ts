@@ -1,14 +1,15 @@
 import { describe, expect, it, vi } from 'vitest';
 import { int, model, required } from './config';
+import { Model } from './model/models';
 
 const ANTHROPIC_MODEL = 'ANTHROPIC_MODEL';
 const CLAUDE_CODE_MAX_OUTPUT_TOKENS = 'CLAUDE_CODE_MAX_OUTPUT_TOKENS';
 
 describe('required()', () => {
   it('should return the correct value when environment variable is present', () => {
-    vi.stubEnv(ANTHROPIC_MODEL, 'claude-haiku-4-5-20251001');
+    vi.stubEnv(ANTHROPIC_MODEL, Model.Haiku);
 
-    expect(required(ANTHROPIC_MODEL)).toBe('claude-haiku-4-5-20251001');
+    expect(required(ANTHROPIC_MODEL)).toBe(Model.Haiku);
   });
 
   it('should throw when environment variable is absent', () => {
@@ -52,9 +53,9 @@ describe('int()', () => {
 
 describe('model()', () => {
   it('should return the model ID if it is an allowed model', () => {
-    vi.stubEnv(ANTHROPIC_MODEL, 'claude-haiku-4-5-20251001');
+    vi.stubEnv(ANTHROPIC_MODEL, Model.Haiku);
 
-    expect(model(ANTHROPIC_MODEL)).toBe('claude-haiku-4-5-20251001');
+    expect(model(ANTHROPIC_MODEL)).toBe(Model.Haiku);
   });
 
   it('should throw an error if the specified model ID is not in the allowed models list', () => {

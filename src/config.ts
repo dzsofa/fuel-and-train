@@ -1,3 +1,5 @@
+import { ALLOWED_MODELS, type AllowedModel } from './model/models';
+
 export function required(name: string): string {
   const v = process.env[name];
   if (!v) throw new Error(`Missing env var: ${name}`);
@@ -15,10 +17,6 @@ export function int(name: string, fallback?: number): number {
     throw new Error(`${name} must be a number, got "${raw}"`);
   return n;
 }
-
-const ALLOWED_MODELS = ['claude-haiku-4-5-20251001'] as const;
-
-type AllowedModel = (typeof ALLOWED_MODELS)[number];
 
 export function model(name: string): AllowedModel {
   const v = required(name);
