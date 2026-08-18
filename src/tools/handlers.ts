@@ -52,15 +52,7 @@ export function estimateMacros(
   };
 }
 
-export function dispatch(
-  toolName: string,
-  input:
-    | { recipe: Recipe; target_servings: number }
-    | {
-        ingredients: Ingredient[];
-        servings: number;
-      }
-): Recipe | MacrosPerServing {
+export function dispatch(toolName: string, input: unknown): Recipe | MacrosPerServing {
   if (toolName === 'scale_recipe') {
     const { recipe, target_servings } = input as {
       recipe: Recipe;

@@ -1,13 +1,6 @@
-import Anthropic from '@anthropic-ai/sdk';
-import { JSONSchema } from '@anthropic-ai/sdk/lib/transform-json-schema.mjs';
+import { Tool } from '@anthropic-ai/sdk/resources';
 
-interface Tool {
-  name: string;
-  description: string;
-  input_schema: JSONSchema;
-}
-
-export const TOOL_DEFINITIONS: Anthropic.Messages.Tool[] = [
+export const TOOL_DEFINITIONS: Tool[] = [
   {
     name: 'scale_recipe',
     description:

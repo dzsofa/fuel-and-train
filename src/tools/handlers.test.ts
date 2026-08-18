@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { scaleRecipe, estimateMacros, dispatch } from "./handlers";
+import { scaleRecipe, estimateMacros, dispatch } from './handlers';
 import type { Recipe, MacrosPerServing } from './types';
 
 const recipe = {
