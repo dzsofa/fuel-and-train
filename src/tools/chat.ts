@@ -3,6 +3,8 @@ import { MessageParam } from '@anthropic-ai/sdk/resources';
 import { runToolLoop } from './loop';
 import { TOOL_DEFINITIONS } from './definitions';
 import { dispatch } from './handlers';
+import { route } from '@/model/router';
+import type { TaskType } from '@/model/types';
 
 const SYSTEM_PROMPT = `You are a nutrition and recipe assistant. You help users scale recipes to different serving sizes and estimate the macronutrient content of meals.
 
@@ -12,7 +14,27 @@ You have access to two tools:
 
 All measurements use SI units (grams, millilitres, Celsius). Provide clear, helpful guidance on nutrition and recipes.`;
 
+const VALID_TASKS: TaskType[] = ['macro_lookup', 'meal_chat', 'weekly_review'];
+
+function parseTaskArg(): TaskType {
+  const idx = process.argv.indexOf('--task');
+  const value = idx !== -1 ? process.argv[idx + 1] : undefined;
+  if (value && VALID_TASKS.includes(value as TaskType)) {
+    return value as TaskType;
+  }
+  console.warn(
+    `No valid --task provided (options: ${VALID_TASKS.join(', ')}). Defaulting to meal_chat.`
+  );
+  return 'meal_chat';
+}
+
 export async function chat(): Promise<void> {
+  const task = parseTaskArg();
+  const routeConfig = route(task);
+  console.log(
+    `Routing: ${routeConfig.label} (model: ${routeConfig.modelId}, caching: ${routeConfig.enableCaching})`
+  );
+
   const client = new Anthropic();
   const messages: MessageParam[] = [
     {
@@ -30,11 +52,11 @@ Please:
     messages,
     TOOL_DEFINITIONS,
     dispatch,
-    SYSTEM_PROMPT
+    SYSTEM_PROMPT,
+    routeConfig
   );
   console.log(result);
 }
-
 
 const isMain = process.argv[1]?.endsWith('chat.ts');
 if (isMain) chat().catch(console.error);

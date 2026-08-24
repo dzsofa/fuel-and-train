@@ -1,4 +1,3 @@
-import { config } from '@/config';
 import Anthropic from '@anthropic-ai/sdk';
 import {
   MessageParam,
@@ -6,22 +5,38 @@ import {
   ToolResultBlockParam,
   ToolUseBlock
 } from '@anthropic-ai/sdk/resources';
+import type { RouteConfig } from '@/model/router';
+import { costLogger } from '@/cost/logger';
 
 export async function runToolLoop(
   client: Anthropic,
   messages: MessageParam[],
   tools: Tool[],
   dispatch: (toolName: string, input: unknown) => unknown,
-  systemPrompt?: string
+  systemPrompt: string,
+  routeConfig: RouteConfig
 ): Promise<string> {
+  const system = routeConfig.enableCaching
+    ? [
+        {
+          type: 'text' as const,
+          text: systemPrompt,
+          cache_control: { type: 'ephemeral' as const }
+        }
+      ]
+    : systemPrompt;
+
   let lastResponse = await client.messages.create({
-    max_tokens: config.maxOutputTokens,
-    model: config.anthropicModel,
-    ...(systemPrompt && { system: systemPrompt }),
+    model: routeConfig.modelId,
+    max_tokens: routeConfig.maxTokens,
+    system,
     messages,
     tools
   });
 
+  console.log(
+    `Usage cost: $${costLogger(routeConfig.modelId, lastResponse.usage)?.toFixed(6)}`
+  );
   messages.push({ role: 'assistant', content: lastResponse.content });
 
   while (lastResponse.stop_reason !== 'end_turn') {
@@ -52,13 +67,16 @@ export async function runToolLoop(
     messages.push({ role: 'user', content: toolResults });
 
     lastResponse = await client.messages.create({
-      max_tokens: config.maxOutputTokens,
-      model: config.anthropicModel,
-      ...(systemPrompt && { system: systemPrompt }),
+      model: routeConfig.modelId,
+      max_tokens: routeConfig.maxTokens,
+      system,
       messages,
       tools
     });
 
+    console.log(
+      `Usage cost: $${costLogger(routeConfig.modelId, lastResponse.usage)?.toFixed(6)}`
+    );
     messages.push({ role: 'assistant', content: lastResponse.content });
   }
 
