@@ -26,6 +26,18 @@ const ROUTES: Record<TaskType, RouteConfig> = {
     maxTokens: 2048,
     enableCaching: true,
     label: 'Opus / deep analysis'
+  },
+  workout_planning: {
+    modelId: Model.Sonnet,
+    maxTokens: 6000, // Compact 5-session plan (3 exercises each) + thinking overhead
+    enableCaching: true,
+    label: 'Sonnet / workout planner agent'
+  },
+  plan_critique: {
+    modelId: Model.Opus,
+    maxTokens: 3000, // Concise critique JSON (short assessments, ≤15-word list items)
+    enableCaching: true,
+    label: 'Opus / critique agent (safety-critical)'
   }
 };
 

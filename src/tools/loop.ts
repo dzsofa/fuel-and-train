@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import {
   MessageParam,
+  TextBlock,
   Tool,
   ToolResultBlockParam,
   ToolUseBlock
@@ -64,6 +65,11 @@ export async function runToolLoop(
       }
     }
 
+    // Guard: if stop_reason is not 'end_turn' but no tool_use blocks were found,
+    // the model returned a text-only response mid-loop (e.g. 'max_tokens' or
+    // unexpected stop). Break rather than send an empty user message.
+    if (toolResults.length === 0) break;
+
     messages.push({ role: 'user', content: toolResults });
 
     lastResponse = await client.messages.create({
@@ -80,6 +86,19 @@ export async function runToolLoop(
     messages.push({ role: 'assistant', content: lastResponse.content });
   }
 
-  const textBlock = lastResponse.content.find((block) => block.type === 'text');
-  return textBlock && 'text' in textBlock ? textBlock.text : '';
+  // Concatenate all text blocks (model may split output across multiple)
+  const text = lastResponse.content
+    .filter((block): block is TextBlock => block.type === 'text')
+    .map((block) => block.text)
+    .join('');
+
+  if (!text) {
+    // Debug: log content types so caller can diagnose empty responses
+    const types = lastResponse.content.map((b) => b.type).join(', ');
+    console.warn(
+      `[loop] Warning: no text block in final response. stop_reason=${lastResponse.stop_reason}, content blocks: [${types}]`
+    );
+  }
+
+  return text;
 }
