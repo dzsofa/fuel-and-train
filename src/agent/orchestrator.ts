@@ -25,13 +25,28 @@ import { CRITIQUE_TOOLS, handleCritiqueToolCall } from './critique-tools';
 
 import type { WorkoutPlan, CritiqueFeedback } from './types';
 
-// Strip markdown code fences if the model wraps JSON in ```json ... ```
-// Handles both complete (closing ```) and truncated (no closing ```) output.
+// Strip markdown code fences and extract the first JSON object or array.
+// Handles models that wrap JSON in ```json...``` or add prose before/after.
 export function stripCodeFences(raw: string): string {
-  return raw
-    .replace(/^```(?:json)?\s*/i, '')  // strip opening fence + optional language tag
-    .replace(/\s*```\s*$/, '')         // strip closing fence if present
+  const stripped = raw
+    .replace(/^```(?:json)?\s*/i, '') // strip opening fence + optional language tag
+    .replace(/\s*```\s*$/, '') // strip closing fence if present
     .trim();
+
+  // Extract from first { or [ to its matching last } or ]
+  const objStart = stripped.indexOf('{');
+  const arrStart = stripped.indexOf('[');
+  const start =
+    objStart === -1
+      ? arrStart
+      : arrStart === -1
+        ? objStart
+        : Math.min(objStart, arrStart);
+  if (start === -1) return stripped;
+
+  const closing = stripped[start] === '{' ? '}' : ']';
+  const end = stripped.lastIndexOf(closing);
+  return end === -1 ? stripped : stripped.slice(start, end + 1);
 }
 
 // ============================================================================
