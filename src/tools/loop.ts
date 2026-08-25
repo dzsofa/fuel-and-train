@@ -32,7 +32,10 @@ export async function runToolLoop(
     max_tokens: routeConfig.maxTokens,
     system,
     messages,
-    tools
+    tools,
+    output_config: {
+      effort: routeConfig.effort
+    }
   });
 
   console.log(
@@ -77,7 +80,10 @@ export async function runToolLoop(
       max_tokens: routeConfig.maxTokens,
       system,
       messages,
-      tools
+      tools,
+      output_config: {
+        effort: routeConfig.effort
+      }
     });
 
     console.log(
