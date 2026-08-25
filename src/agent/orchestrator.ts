@@ -27,7 +27,7 @@ import type { WorkoutPlan, CritiqueFeedback } from './types';
 
 // Strip markdown code fences if the model wraps JSON in ```json ... ```
 // Handles both complete (closing ```) and truncated (no closing ```) output.
-function stripCodeFences(raw: string): string {
+export function stripCodeFences(raw: string): string {
   return raw
     .replace(/^```(?:json)?\s*/i, '')  // strip opening fence + optional language tag
     .replace(/\s*```\s*$/, '')         // strip closing fence if present
