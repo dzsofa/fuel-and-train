@@ -7,6 +7,7 @@ export default defineConfig({
   },
   test: {
     unstubEnvs: true,
+    setupFiles: ['./vitest.setup.ts'],
     env: {
       ANTHROPIC_MODEL: Model.Haiku
     },

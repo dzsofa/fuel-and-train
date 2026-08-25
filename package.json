@@ -26,7 +26,10 @@
   "type": "module",
   "devDependencies": {
     "@types/node": "^26.1.2",
+    "@vitest/coverage-v8": "4.1.10",
+    "dotenv": "^17.4.2",
     "tsx": "^4.23.7",
+    "vite": "^8.2.2",
     "vitest": "^4.1.10"
   },
   "dependencies": {
