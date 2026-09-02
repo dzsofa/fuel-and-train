@@ -1,0 +1,27 @@
+[
+  {
+    "userId": "user-alex-001",
+    "name": "Alex",
+    "fitnessLevel": "intermediate",
+    "goals": ["strength", "endurance"],
+    "availableEquipment": ["dumbbells", "barbell", "pull_up_bar"],
+    "hoursPerWeek": 4
+  },
+  {
+    "userId": "user-morgan-002",
+    "name": "Morgan",
+    "fitnessLevel": "beginner",
+    "goals": ["weight_loss", "endurance"],
+    "availableEquipment": ["dumbbells", "resistance_bands"],
+    "hoursPerWeek": 3,
+    "injuryHistory": ["lower_back_strain"]
+  },
+  {
+    "userId": "user-sam-003",
+    "name": "Sam",
+    "fitnessLevel": "advanced",
+    "goals": ["strength"],
+    "availableEquipment": ["dumbbells", "barbell", "pull_up_bar", "cable_machine", "bench"],
+    "hoursPerWeek": 5
+  }
+]

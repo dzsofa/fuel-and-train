@@ -28,5 +28,10 @@ export function model(name: string): AllowedModel {
 
 export const config = {
   anthropicModel: model('ANTHROPIC_MODEL'),
-  maxOutputTokens: int('CLAUDE_CODE_MAX_OUTPUT_TOKENS', 1024)
+  maxOutputTokens: int('CLAUDE_CODE_MAX_OUTPUT_TOKENS', 1024),
+
+  // M6 — Batch API
+  batchPollIntervalMs: int('BATCH_POLL_INTERVAL_MS', 5_000),
+  batchTimeoutMs: int('BATCH_TIMEOUT_MS', 600_000),
+  batchOutputPath: process.env['BATCH_OUTPUT_PATH'] ?? 'output/batch-results.jsonl',
 } as const;

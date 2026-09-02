@@ -11,7 +11,9 @@
     "hello-stream": "node --env-file=.env --import tsx ./src/client/hello-stream.ts",
     "intake": "node --env-file=.env --import tsx ./src/intake/intake.ts",
     "tools": "node --env-file=.env --import tsx src/tools/chat.ts",
-    "agent": "node --env-file=.env --import tsx src/agent/agent.ts"
+    "agent": "node --env-file=.env --import tsx src/agent/agent.ts",
+    "batch": "node --env-file=.env --import tsx src/batch/batch-cli.ts",
+    "batch:dry": "node --env-file=.env --import tsx src/batch/batch-cli.ts --dry-run"
   },
   "keywords": [],
   "author": "",
