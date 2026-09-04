@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "fuel-and-train": {
+      "command": "fuel-and-train-mcp"
+    }
+  }
+}

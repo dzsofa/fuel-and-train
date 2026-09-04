@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fuel-and-train-mcp"
+version = "0.1.0"
+description = "MCP server exposing pantry, meal log, and training log tools for the Fuel & Train assistant"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=2.1.1",
+]
+
+[project.scripts]
+fuel-and-train-mcp = "server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]

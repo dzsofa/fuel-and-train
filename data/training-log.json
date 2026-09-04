@@ -1,0 +1,34 @@
+[
+  {
+    "timestamp": "2026-08-05T06:30:00+02:00",
+    "activity": "Running",
+    "duration_min": 45,
+    "distance_km": 8.0,
+    "notes": "easy pace, zone 2"
+  },
+  {
+    "timestamp": "2026-08-06T17:00:00+02:00",
+    "activity": "Strength",
+    "duration_min": 60,
+    "notes": "upper body — bench, rows, shoulder press"
+  },
+  {
+    "timestamp": "2026-08-07T07:00:00+02:00",
+    "activity": "HIIT",
+    "duration_min": 30,
+    "notes": "4 rounds tabata, kettlebell"
+  },
+  {
+    "timestamp": "2026-08-09T09:15:00+02:00",
+    "activity": "Cycling",
+    "duration_min": 75,
+    "distance_km": 28.5,
+    "notes": "outdoor, hilly route"
+  },
+  {
+    "timestamp": "2026-08-10T18:00:00+02:00",
+    "activity": "Aerobics",
+    "duration_min": 45,
+    "notes": "dance aerobics class"
+  }
+]

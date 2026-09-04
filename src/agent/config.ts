@@ -6,7 +6,7 @@
  * not hard-coded system prompts — demonstrates tool-driven personalization
  */
 
-import type { UserProfile, ExerciseMetadata } from './types';
+import type { UserProfile, ExerciseMetadata, TrainingSession, ActivityType } from './types';
 
 export const SAMPLE_USER_PROFILE: UserProfile = {
   userId: 'user-alex-001',
@@ -99,15 +99,49 @@ export const EXERCISE_DATABASE: ExerciseMetadata[] = [
  * Past training history — fetched from training-log.json via tool
  * Informs progression decisions
  */
-export function getRecentTrainingHistory(userId: string, days: number = 14) {
-  // Stub: in real implementation, this reads training-log.json
-  // For now, returning sample data to guide planner decisions
-  return {
-    userId,
-    period: `Last ${days} days`,
-    sessionsCompleted: 5,
-    lastSessionDate: '2026-08-24',
-    exercisesUsed: ['squat', 'bench_press', 'rows_barbell', 'pull_ups'],
-    notes: 'User progressing well; ready for slight intensity increase'
-  };
+export function getRecentTrainingHistory(
+  userId: string,
+  days: number = 14
+): { userId: string; sessions: TrainingSession[] } {
+  // Stub: in real implementation, this reads training-log.json and filters
+  // by timestamp >= (now - days). Returns entries shaped like the file.
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - days);
+
+  const sessions: TrainingSession[] = [
+    {
+      timestamp: '2026-08-05T06:30:00+02:00',
+      activity: 'Running' as ActivityType,
+      duration_min: 45,
+      distance_km: 8.0,
+      notes: 'easy pace, zone 2'
+    },
+    {
+      timestamp: '2026-08-06T17:00:00+02:00',
+      activity: 'Strength' as ActivityType,
+      duration_min: 60,
+      notes: 'upper body — bench, rows, shoulder press'
+    },
+    {
+      timestamp: '2026-08-07T07:00:00+02:00',
+      activity: 'HIIT' as ActivityType,
+      duration_min: 30,
+      notes: '4 rounds tabata, kettlebell'
+    },
+    {
+      timestamp: '2026-08-09T09:15:00+02:00',
+      activity: 'Cycling' as ActivityType,
+      duration_min: 75,
+      distance_km: 28.5,
+      notes: 'outdoor, hilly route'
+    },
+    {
+      timestamp: '2026-08-10T18:00:00+02:00',
+      activity: 'Aerobics' as ActivityType,
+      duration_min: 45,
+      notes: 'dance aerobics class'
+    }
+  ].filter(s => new Date(s.timestamp) >= cutoff);
+
+  return { userId, sessions };
 }

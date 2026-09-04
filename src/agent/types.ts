@@ -59,6 +59,23 @@ export interface ExerciseMetadata {
   notes?: string; // e.g., 'Avoid if lower_back injury present'
 }
 
+export type ActivityType =
+  | 'Running'
+  | 'Cycling'
+  | 'Strength'
+  | 'Swimming'
+  | 'HIIT'
+  | 'Aerobics'
+  | 'Other';
+
+export interface TrainingSession {
+  timestamp: string; // ISO 8601 with timezone offset
+  activity: ActivityType;
+  duration_min: number;
+  distance_km?: number;
+  notes?: string;
+}
+
 export interface CritiqueFeedback {
   planId: string;
   status: 'approved' | 'revision_suggested' | 'rejected';
