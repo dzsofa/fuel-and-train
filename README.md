@@ -28,6 +28,7 @@ cp .env.example .env   # add ANTHROPIC_API_KEY and ANTHROPIC_MODEL
 | `pnpm agent` | M5: two-agent workout planner (Sonnet) + critique (Opus) via orchestrator |
 | `pnpm batch` | M6: submit an overnight batch of workout plans, poll until ended, stream JSONL results |
 | `pnpm batch:dry` | M6: print the batch payload without submitting (useful for inspecting request shapes) |
+| `fuel-and-train-mcp` | M7: start the MCP server over stdio (after `pip install -e mcp-server/`) |
 
 ## Project structure
 
@@ -62,6 +63,14 @@ src/
     batch-cli.ts               ← M6: CLI entry with --dry-run and --users flags
     fixtures/users.json        ← M6: mock UserProfile array (seed data)
     README.md                  ← M6: architecture, design decisions, exam concepts
+mcp-server/
+  pyproject.toml               ← M7: Python package; declares fuel-and-train-mcp CLI entry point
+  server.py                    ← M7: MCPServer with 6 tools (pantry, meal log, training log)
+  README.md                    ← M7: setup, Claude Desktop/Code connection, exam concepts
+data/
+  pantry.json                  ← pantry items (name, amount_g)
+  meal-log.json                ← logged meals (timestamp, meal_name, macros, notes?)
+  training-log.json            ← logged training sessions (timestamp, activity, duration_min, distance_km?, notes?)
 ```
 
 ## Testing
@@ -100,6 +109,15 @@ Most integration tests make a real API call and return quickly (under 30s). The 
 - The loop in `tools/loop.ts` exits on `stop_reason: 'end_turn'`. Tool results are appended as `tool_result` blocks and the loop continues until Claude stops calling tools.
 - Error responses from handlers are returned as `tool_result` blocks with `is_error: true` — the model sees them and can decide how to proceed rather than crashing.
 
+### MCP server (M7)
+- An MCP server is an **external process**; the host application spawns it and proxies tool calls. Claude never contacts the MCP server directly — this is the key architectural distinction from M3 inline tools.
+- **stdio transport**: server reads JSON-RPC from stdin, writes to stdout. Chosen over HTTP/SSE for simplicity; compatible with Claude Desktop, Claude Code, and the TypeScript MCP client SDK.
+- `Literal[...]` in Python type annotations is inferred as a JSON Schema `enum` by the MCP SDK — use it to constrain model input to valid activity types.
+- Pydantic `BaseModel` for nested tool inputs (e.g. `Macros`) gives automatic validation before the handler runs; invalid input raises before touching the file.
+- **`pip install -e .`** installs the package in editable mode, registering the `fuel-and-train-mcp` CLI command. Claude Desktop config references the command, not a file path — so the working directory at launch doesn't matter.
+- `%APPDATA%` on Windows = `AppData\Roaming`. Claude Desktop config lives at `AppData\Roaming\Claude\claude_desktop_config.json`.
+- Claude Code project-scoped MCP config lives in `.mcp.json` at the repo root (distinct from `.claude/settings.json`, which holds permissions/hooks/env only).
+
 ### Model routing
 - Routing by task type (`router.ts`) keeps model selection out of business logic. Each route specifies model, `max_tokens`, and `cache_control` settings.
 - Prompt caching requires the system prompt to be a content block (`{ type: 'text', text: '...', cache_control: { type: 'ephemeral' } }`) — a plain string is not cacheable.
@@ -118,7 +136,7 @@ Most integration tests make a real API call and return quickly (under 30s). The 
 | 4 | Model tiers + caching + cost: routing, prompt caching, token logging | D5 | ✅ done |
 | 5 | Agent: workout planner + critique sub-agent | D1 | ✅ done |
 | 6 | Batch: overnight weekly-plan job via Batch API | D2 | ✅ done |
-| 7 | MCP server (Python): pantry + training log | D8 | — |
+| 7 | MCP server (Python): pantry + meal log + training log | D8 | ✅ done |
 | 8 | Security & hooks: injection isolation, destructive-action hook | D7 | — |
 | 9 | Claude Code operation: CLAUDE.md hierarchy, slash command, Skill | D3 | — |
 | 10 | Eval + debugging: task-level eval harness, trace analysis | D4 | — |
