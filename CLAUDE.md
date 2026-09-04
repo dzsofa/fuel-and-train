@@ -74,7 +74,7 @@ This applies to tool input/output schemas, system prompts, seed data files, and 
 | M4 | Model tiers, caching & cost | D5 | pending |
 | M5 | Workout-planner agent | D1 | pending |
 | M6 | Batch weekly planning | D2 | pending |
-| M7 | Pantry & training-log MCP server (Python) | D8 | pending |
+| M7 | Pantry & meal-log MCP server (Python) | D8 | pending |
 | M8 | Security & hooks | D7 | pending |
 | M9 | Claude Code operation | D3 | pending |
 | M10 | Eval & debugging | D4 | pending |
@@ -93,7 +93,7 @@ fuel-and-train/
   package.json
   tsconfig.json
   assets/images/        # mock recipe/label images for M2 (no camera needed)
-  data/                 # pantry.json, training-log.json (created at M3), eval tasks (M10)
+  data/                 # pantry.json, meal-log.json (created at M3), eval tasks (M10)
   src/
     client/             # Anthropic SDK wrapper, streaming helpers
     intake/             # vision: image → structured recipe/nutrition object
